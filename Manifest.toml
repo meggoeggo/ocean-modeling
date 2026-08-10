@@ -2,7 +2,7 @@
 
 julia_version = "1.12.6"
 manifest_format = "2.0"
-project_hash = "662db4617ca13929d2a4ae8f4c3918b34aae66f7"
+project_hash = "33b47e2dcf7fbb71cadaee82f6aed1c8d89c76fb"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -831,6 +831,18 @@ git-tree-sha1 = "45288942190db7c5f760f59c04495064eedf9340"
 uuid = "b0724c58-0f36-5564-988d-3bb0596ebc4a"
 version = "0.22.4+0"
 
+[[deps.GibbsSeaWater]]
+deps = ["GibbsSeaWater_jll", "Libdl", "Test"]
+git-tree-sha1 = "f4318e7a751703a5db8b57c112e5cd5c218d296b"
+uuid = "9a22fb26-0b63-4589-b28e-8f9d0b5c3d05"
+version = "0.1.4"
+
+[[deps.GibbsSeaWater_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "c91ca76546871efaa1aefdd2b19cc41c3ead2160"
+uuid = "6727f6b2-98ea-5d0a-8239-2f72283ddb11"
+version = "3.5.2+0"
+
 [[deps.Giflib_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
 git-tree-sha1 = "6570366d757b50fabae9f4315ad74d2e40c0560a"
@@ -1586,6 +1598,12 @@ version = "0.5.7"
 git-tree-sha1 = "7438a59546cf62428fc9d1bc94729146d37a7225"
 uuid = "510215fc-4207-5dde-b226-833fc4488ee2"
 version = "0.5.5"
+
+[[deps.OceanBioME]]
+deps = ["Adapt", "Atomix", "CUDA", "GibbsSeaWater", "JLD2", "KernelAbstractions", "Oceananigans", "OffsetArrays", "SeawaterPolynomials"]
+git-tree-sha1 = "f013a125acb86b5e8e89693fc3ac6978ba9443db"
+uuid = "a49af516-9db8-4be4-be45-1dad61c5a376"
+version = "0.18.0"
 
 [[deps.Oceananigans]]
 deps = ["Adapt", "Crayons", "CubedSphere", "Dates", "Distances", "DocStringExtensions", "FFTW", "GPUArraysCore", "Glob", "InteractiveUtils", "JLD2", "KernelAbstractions", "Krylov", "LinearAlgebra", "Logging", "MPI", "MuladdMacro", "OffsetArrays", "OrderedCollections", "Pkg", "Printf", "ReactantCore", "Rotations", "SeawaterPolynomials", "SparseArrays", "StaticArrays", "Statistics", "StructArrays"]

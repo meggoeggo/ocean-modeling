@@ -1,32 +1,37 @@
-# Adapted from the official OceanBioME stand-alone box-model example:
-# https://oceanbiome.github.io/OceanBioME.jl/stable/generated/box/
 
 using OceanBioME, Oceananigans, Oceananigans.Units
 using Oceananigans.Fields: FunctionField
 
+# why?
 const year = years = 365day
 
+# perfectly mixed h20 parcel
 grid = BoxModelGrid()
+
+#set time to 0
 clock = Clock(time = zero(grid))
 
 # Prescribed time-dependent photosynthetically available radiation (PAR).
-PAR⁰(t) = 60 * (1 - cos((t + 15days) * 2π / year)) *
-          (1 / (1 + 0.2 * exp(-((mod(t, year) - 200days) / 50days)^2))) + 2
+# PAR = photosynthetically available radiation --> light phytoplankton can use ofr photosynthesis
+PAR⁰(t) = 60 * (1 - cos((t + 15days) * 2π / year)) * # creates annual light cycles
+          (1 / (1 + 0.2 * exp(-((mod(t, year) - 200days) / 50days)^2))) + 2 #+2 --> keep par from being exactly 0
 
 const z = -10 # Nominal depth of the box in meters.
-PAR_func(t) = PAR⁰(t) * exp(0.2z)
+PAR_func(t) = PAR⁰(t) * exp(0.2z) # control for light attenuatoin (light intensity dec as --> h20)
 PAR = FunctionField{Center, Center, Center}(PAR_func, grid; clock)
 
+# full box model compilarion
 model = BoxModel(;
-    biogeochemistry = LOBSTER(
+    biogeochemistry = LOBSTER( # LOBSTER: Lodyc-DAMTP Ocean Biogeochemical Simulation Tools for Ecosystem and Resources
         grid;
         light_attenuation = PrescribedPhotosyntheticallyActiveRadiation(PAR),
     ),
     clock,
 )
 
-set!(model, NO₃ = 10.0, NH₄ = 0.1, P = 0.1, Z = 0.01)
+set!(model, NO₃ = 10.0, NH₄ = 0.1, P = 0.1, Z = 0.01) # set init []s for four lobster tracers -- nitrate, ammonium, phytoplankton, zooplanton
 
+# construct output file
 output_file = joinpath(@__DIR__, "box.jld2")
 simulation = Simulation(model; Δt = 5minutes, stop_time = 5years)
 simulation.output_writers[:fields] = JLD2Writer(
